@@ -8,16 +8,15 @@ import './MovieDetail.css'
 
 export default function MovieDetail() {
   const { id } = useParams()
-  
+  const [showTrailer, setShowTrailer] = useState(false)
+  const [showFullMovie, setShowFullMovie] = useState(false)
+
   const peliLibre = peliculasLibres.find(p => p.id === parseInt(id))
-  
+
   const { data: movie, loading, error } = useFetch(`/movie/${id}`)
   const { data: credits } = useFetch(`/movie/${id}/credits`)
   const { data: videos } = useFetch(`/movie/${id}/videos`)
   const { data: similar } = useFetch(`/movie/${id}/similar`)
-  
-  const [showTrailer, setShowTrailer] = useState(false)
-  const [showFullMovie, setShowFullMovie] = useState(false)
 
   if (loading) return <Loader text="Cargando detalles..." />
   if (error || !movie) return (
@@ -32,8 +31,13 @@ export default function MovieDetail() {
   const score = movie.vote_average?.toFixed(1)
   const year = movie.release_date?.slice(0, 4)
   const runtime = movie.runtime ? `${Math.floor(movie.runtime / 60)}h ${movie.runtime % 60}m` : 'N/D'
-  const trailer = videos?.results?.find(v => v.type === 'Trailer' && v.site === 'YouTube')
-  const cast = credits?.cast?.slice(0, 8) || []
+  const trailer = videos?.results?.find(v => v.site === 'YouTube' && v.type === 'Trailer')
+    || videos?.results?.find(v => v.site === 'YouTube' && v.type === 'Teaser')
+    || videos?.results?.find(v => v.site === 'YouTube')
+  const cast = credits?.cast?.slice(0, 8).map(actor => {
+    const override = peliLibre?.cast?.find(c => c.name === actor.name)
+    return override ? { ...actor, localPhoto: override.photo } : actor
+  }) || []
   const director = credits?.crew?.find(c => c.job === 'Director')
 
   return (
@@ -49,26 +53,22 @@ export default function MovieDetail() {
 
         <div className="detail-main">
           <div className="detail-poster-wrap">
-            {poster ? (
-              <img src={poster} alt={movie.title} className="detail-poster" />
-            ) : (
-              <div className="detail-poster-placeholder">🎬</div>
-            )}
-            
-            <div className="detail-actions" style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '15px' }}>
+            {poster
+              ? <img src={poster} alt={movie.title} className="detail-poster" />
+              : <div className="detail-poster-placeholder">🎬</div>
+            }
+            <div className="detail-actions">
               {trailer && (
                 <button className="trailer-btn" onClick={() => setShowTrailer(true)}>
                   ▶ Ver Tráiler
                 </button>
               )}
-
               {peliLibre && (
-                <button 
-                  className="trailer-btn" 
-                  style={{ background: 'var(--accent2)' }}
+                <button
+                  className="trailer-btn fullmovie-btn"
                   onClick={() => setShowFullMovie(true)}
                 >
-                  🚀 Ver Película Completa
+                  🍿 Ver Película Completa
                 </button>
               )}
             </div>
@@ -121,10 +121,13 @@ export default function MovieDetail() {
                   {cast.map(actor => (
                     <div key={actor.id} className="cast-card">
                       <img
-                        src={actor.profile_path
-                          ? `${IMG_BASE}/w185${actor.profile_path}`
-                          : 'https://via.placeholder.com/185x278/0f0f1a/7a7a9a?text=?'}
+                        src={actor.localPhoto
+                          ? actor.localPhoto
+                          : actor.profile_path
+                            ? `${IMG_BASE}/w185${actor.profile_path}`
+                            : 'https://via.placeholder.com/185x278/fde8ef/f48fb1?text=?'}
                         alt={actor.name}
+                        onError={e => { e.target.onerror = null; e.target.src = 'https://via.placeholder.com/185x278/fde8ef/f48fb1?text=?' }}
                       />
                       <p className="cast-name">{actor.name}</p>
                       <p className="cast-char">{actor.character}</p>
@@ -154,7 +157,7 @@ export default function MovieDetail() {
             <button className="trailer-close" onClick={() => setShowTrailer(false)}>✕</button>
             <iframe
               src={`https://www.youtube.com/embed/${trailer.key}?autoplay=1`}
-              title="Trailer"
+              title="Tráiler"
               allowFullScreen
               allow="autoplay; encrypted-media"
             />
@@ -166,10 +169,11 @@ export default function MovieDetail() {
         <div className="trailer-modal" onClick={() => setShowFullMovie(false)}>
           <div className="trailer-box" onClick={e => e.stopPropagation()}>
             <button className="trailer-close" onClick={() => setShowFullMovie(false)}>✕</button>
-            <iframe 
-              src={`https://www.youtube.com/embed/${peliLibre.youtubeId}?autoplay=1`} 
-              title="Película Completa" 
-              allowFullScreen 
+            <iframe
+              src={`https://www.youtube.com/embed/${peliLibre.youtubeId}?autoplay=1`}
+              title="Película Completa"
+              allowFullScreen
+              allow="autoplay; encrypted-media"
               style={{ width: '100%', height: '100%', border: 'none' }}
             />
           </div>
