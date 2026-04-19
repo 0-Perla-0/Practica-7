@@ -34,6 +34,7 @@ export default function MovieDetail() {
   const trailer = videos?.results?.find(v => v.site === 'YouTube' && v.type === 'Trailer')
     || videos?.results?.find(v => v.site === 'YouTube' && v.type === 'Teaser')
     || videos?.results?.find(v => v.site === 'YouTube')
+  const trailerKey = trailer ? trailer.key : peliLibre?.youtubeId
   const cast = credits?.cast?.slice(0, 8).map(actor => {
     const override = peliLibre?.cast?.find(c => c.name === actor.name)
     return override ? { ...actor, localPhoto: override.photo } : actor
@@ -58,7 +59,7 @@ export default function MovieDetail() {
               : <div className="detail-poster-placeholder">🎬</div>
             }
             <div className="detail-actions">
-              {trailer && (
+              {trailerKey && (
                 <button className="trailer-btn" onClick={() => setShowTrailer(true)}>
                   ▶ Ver Tráiler
                 </button>
@@ -151,12 +152,12 @@ export default function MovieDetail() {
         )}
       </div>
 
-      {showTrailer && trailer && (
+      {showTrailer && trailerKey && (
         <div className="trailer-modal" onClick={() => setShowTrailer(false)}>
           <div className="trailer-box" onClick={e => e.stopPropagation()}>
             <button className="trailer-close" onClick={() => setShowTrailer(false)}>✕</button>
             <iframe
-              src={`https://www.youtube.com/embed/${trailer.key}?autoplay=1`}
+              src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1`}
               title="Tráiler"
               allowFullScreen
               allow="autoplay; encrypted-media"
