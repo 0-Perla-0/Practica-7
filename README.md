@@ -1,3 +1,8 @@
+## Proyecto CineMAX
+App de películas hecha con React y TMDB API.
+Integrantes: Perla, Marcos, Vane
+
+
 # CineMAX - App de Peliculas en React
 
 Aplicacion web desarrollada con React + Vite que consume la API de TMDB para mostrar informacion de peliculas.
