@@ -8,7 +8,7 @@ import Search from './pages/Search'
 import Category from './pages/Category'
 import ProfileSelect from './pages/ProfileSelect'
 import './App.css'
-
+import Favorites from './pages/Favorites'
 export default function App() {
   const [activeProfile, setActiveProfile] = useState(null)
 
@@ -26,6 +26,7 @@ export default function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/category/:type" element={<Category />} />
           <Route path="/perfiles" element={<ProfileSelect onSelect={(profile) => setActiveProfile(profile)} />} />
+          <Route path="/favorites" element={<Favorites />} />
         </Routes>
       </main>
       <Footer />

@@ -89,3 +89,28 @@
   color: #ce93d8;
   font-weight: 500;
 }
+.movie-card-wrap {
+  position: relative;
+  animation: fadeUp 0.4s ease both;
+}
+
+.fav-btn {
+  position: absolute;
+  bottom: 55px;
+  left: 12px;
+  background: rgba(255,255,255,0.9);
+  border: none;
+  border-radius: 50%;
+  width: 34px;
+  height: 34px;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(244,143,177,0.3);
+  transition: transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.fav-btn:hover { transform: scale(1.2); }
+.fav-btn.active { background: #fff0f3; }
