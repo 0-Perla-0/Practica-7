@@ -44,6 +44,6 @@ VITE_TMDB_KEY=tu_api_key_aqui
 - Marcos Leonel Murillo Villegas
 - Vanessa Guadalupe Saavedra Ramírez
 
-**Profesor:** Zeus Emanuel Gutiérrez Cobián  
+**Profesor:** Zeus Emanuel Gutiérrez Cobián 
 **Materia:** Desarrollo Web  
 **CUCEI — Universidad de Guadalajara | Abril 2026**
