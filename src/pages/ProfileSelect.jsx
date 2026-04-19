@@ -76,15 +76,16 @@ const CATEGORIES = [
   },
 ]
 
-const INITIAL_PROFILES = [
+// Bug fix: guardamos profiles en variable externa para que persista entre renders
+let savedProfiles = [
   { id: 1, name: 'Perla',  img: '/avatars/hello-kitty.png', color: '#ff6b9d' },
   { id: 2, name: 'Marcos', img: '/avatars/max-steel.png',   color: '#3b82f6' },
   { id: 3, name: 'Vane',   img: '/avatars/kuromi.png',      color: '#a855f7' },
 ]
 
 export default function ProfileSelect({ onSelect }) {
-  const [profiles, setProfiles] = useState(INITIAL_PROFILES)
-  const [mode, setMode] = useState('list') // list | create | edit
+  const [profiles, setProfiles] = useState(savedProfiles)
+  const [mode, setMode] = useState('list')
   const [step, setStep] = useState('category')
   const [selectedCat, setSelectedCat] = useState(null)
   const [selectedChar, setSelectedChar] = useState(null)
@@ -93,11 +94,16 @@ export default function ProfileSelect({ onSelect }) {
   const [chosen, setChosen] = useState(null)
   const [confirmDelete, setConfirmDelete] = useState(null)
 
+  function updateProfiles(newProfiles) {
+    savedProfiles = newProfiles
+    setProfiles(newProfiles)
+  }
+
   function handleProfileClick(p) {
-  if (mode !== 'list') return
-  setChosen(p.id)
-  setTimeout(() => { if (onSelect) onSelect(p) }, 800)
-}
+    if (mode !== 'list') return
+    setChosen(p.id)
+    setTimeout(() => { if (onSelect) onSelect(p) }, 800)
+  }
 
   function startEdit(e, p) {
     e.stopPropagation()
@@ -121,14 +127,14 @@ export default function ProfileSelect({ onSelect }) {
   function handleFinish() {
     if (!profileName.trim()) return
     if (mode === 'create' && selectedChar) {
-      setProfiles(prev => [...prev, {
+      updateProfiles([...profiles, {
         id: Date.now(),
         name: profileName,
         img: selectedChar.img,
-        color: selectedCat?.color || '#e63946'
+        color: selectedCat?.color || '#f48fb1'
       }])
     } else if (mode === 'edit' && editingProfile) {
-      setProfiles(prev => prev.map(p =>
+      updateProfiles(profiles.map(p =>
         p.id === editingProfile.id
           ? { ...p, name: profileName, img: selectedChar?.img || p.img, color: selectedCat?.color || p.color }
           : p
@@ -138,7 +144,7 @@ export default function ProfileSelect({ onSelect }) {
   }
 
   function handleDelete(id) {
-    setProfiles(prev => prev.filter(p => p.id !== id))
+    updateProfiles(profiles.filter(p => p.id !== id))
     setConfirmDelete(null)
     setMode('list')
   }
@@ -147,23 +153,24 @@ export default function ProfileSelect({ onSelect }) {
     <div className="profile-page">
       <div className="profile-bg" />
       <div className="profile-container">
-        <h1 className="profile-title">QUIEN ERES?</h1>
+        <p className="profile-eyebrow">Bienvenido a</p>
+        <h1 className="profile-title">CINE<em>MAX</em></h1>
+        <p className="profile-sub">Elige tu perfil para continuar</p>
         <div className="profiles-grid">
           {profiles.map(p => (
             <div key={p.id} className={`profile-card ${chosen === p.id ? 'chosen' : ''}`}>
-              <div className="profile-avatar" style={{ borderColor: p.color }} onClick={() => handleProfileClick(p)}>
+              <div className="profile-avatar" style={{ borderColor: p.color, boxShadow: `0 0 0 4px ${p.color}22` }} onClick={() => handleProfileClick(p)}>
                 <img src={p.img} alt={p.name} onError={e => { e.target.src = 'https://api.dicebear.com/7.x/adventurer/svg?seed=' + p.name }} />
               </div>
               <p className="profile-name" onClick={() => handleProfileClick(p)}>{p.name}</p>
-              <button className="edit-btn" onClick={e => startEdit(e, p)}>✏️ Editar</button>
+              <button className="edit-btn" onClick={e => startEdit(e, p)}>✏ Editar</button>
             </div>
           ))}
           <div className="profile-card" onClick={startCreate}>
             <div className="profile-avatar new-avatar"><span>+</span></div>
-            <p className="profile-name">Nuevo</p>
+            <p className="profile-name">Nuevo perfil</p>
           </div>
         </div>
-        <p className="profile-hint">Toca tu perfil para continuar · Toca Editar para modificar</p>
       </div>
 
       {confirmDelete && (
@@ -187,19 +194,14 @@ export default function ProfileSelect({ onSelect }) {
 
         {mode === 'edit' && step === 'category' && (
           <div className="edit-header">
-            <div className="edit-preview">
-              <img src={editingProfile.img} alt={editingProfile.name} />
+            <div className="edit-preview" style={{ borderColor: selectedCat?.color || editingProfile.color }}>
+              <img src={selectedChar?.img || editingProfile.img} alt={editingProfile.name} />
             </div>
-            <input
-              className="profile-input"
-              type="text"
-              placeholder="Nombre del perfil"
-              value={profileName}
-              onChange={e => setProfileName(e.target.value)}
-              maxLength={12}
-            />
+            <p className="edit-name-label">Editando perfil</p>
+            <input className="profile-input" type="text" placeholder="Nombre del perfil"
+              value={profileName} onChange={e => setProfileName(e.target.value)} maxLength={12} />
             <div className="edit-actions-top">
-              <button className="btn-change-avatar" onClick={() => setStep('character-edit')}>
+              <button className="btn-change-avatar" onClick={() => { setSelectedCat(null); setStep('character-edit') }}>
                 Cambiar avatar
               </button>
               <button className="btn-delete-profile" onClick={() => setConfirmDelete(editingProfile.id)}>
@@ -208,16 +210,17 @@ export default function ProfileSelect({ onSelect }) {
             </div>
             <div className="form-actions" style={{ maxWidth: 300, margin: '0 auto' }}>
               <button className="btn-back" onClick={() => setMode('list')}>Cancelar</button>
-              <button className="btn-create" style={{ background: editingProfile.color }} onClick={handleFinish} disabled={!profileName.trim()}>
+              <button className="btn-create" style={{ background: selectedCat?.color || editingProfile.color }}
+                onClick={handleFinish} disabled={!profileName.trim()}>
                 Guardar
               </button>
             </div>
           </div>
         )}
 
-        {(step === 'category' && mode === 'create') && (
+        {step === 'category' && mode === 'create' && (
           <>
-            <h2 className="creator-title">ELIGE UNA CATEGORIA</h2>
+            <h2 className="creator-title">Elige una categoria</h2>
             <div className="categories-grid">
               {CATEGORIES.map(cat => (
                 <button key={cat.name} className="cat-btn" style={{ '--cat-color': cat.color }}
@@ -232,27 +235,24 @@ export default function ProfileSelect({ onSelect }) {
 
         {(step === 'character' || step === 'character-edit') && selectedCat && (
           <>
-            <h2 className="creator-title">{selectedCat.name.toUpperCase()}</h2>
+            <h2 className="creator-title">{selectedCat.name}</h2>
             <div className="chars-grid">
               {selectedCat.characters.map(c => (
                 <div key={c.id} className={`char-card ${selectedChar?.img === c.img ? 'selected' : ''}`}
                   style={{ '--cat-color': selectedCat.color }}
-                  onClick={() => {
-                    setSelectedChar(c)
-                    setStep(step === 'character-edit' ? 'category' : 'name')
-                  }}>
+                  onClick={() => { setSelectedChar(c); setStep(step === 'character-edit' ? 'category' : 'name') }}>
                   <img src={c.img} alt={c.name} onError={e => { e.target.src = 'https://api.dicebear.com/7.x/adventurer/svg?seed=' + c.name }} />
                   <p>{c.name}</p>
                 </div>
               ))}
             </div>
-            <button className="btn-back" onClick={() => setStep(mode === 'edit' ? 'category' : 'category')}>← Atras</button>
+            <button className="btn-back" onClick={() => setStep('category')}>← Atras</button>
           </>
         )}
 
         {step === 'character-edit' && !selectedCat && (
           <>
-            <h2 className="creator-title">ELIGE UNA CATEGORIA</h2>
+            <h2 className="creator-title">Elige una categoria</h2>
             <div className="categories-grid">
               {CATEGORIES.map(cat => (
                 <button key={cat.name} className="cat-btn" style={{ '--cat-color': cat.color }}
@@ -267,7 +267,7 @@ export default function ProfileSelect({ onSelect }) {
 
         {step === 'name' && selectedChar && (
           <>
-            <h2 className="creator-title">DALE UN NOMBRE</h2>
+            <h2 className="creator-title">Dale un nombre</h2>
             <div className="name-step">
               <div className="char-preview" style={{ borderColor: selectedCat?.color }}>
                 <img src={selectedChar.img} alt="" onError={e => { e.target.src = 'https://api.dicebear.com/7.x/adventurer/svg?seed=default' }} />
