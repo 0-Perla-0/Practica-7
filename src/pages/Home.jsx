@@ -40,3 +40,5 @@ export default function Home() {
 }
 
 import MovieCardImport from '../components/MovieCard'
+
+// integracion TMDB
