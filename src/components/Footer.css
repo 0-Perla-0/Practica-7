@@ -1,52 +1,44 @@
 .footer {
-  background: var(--surface);
-  border-top: 1px solid var(--border);
-  margin-top: 4rem;
-  position: relative;
-  z-index: 1;
+  background: linear-gradient(135deg, #fde8ef, #f3e8ff);
+  border-top: 2px solid #f8d7da;
+  padding: 32px 40px;
+  margin-top: 60px;
 }
+
 .footer-inner {
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
-  padding: 2.5rem 2rem;
   display: flex;
   align-items: center;
-  gap: 2rem;
+  justify-content: space-between;
   flex-wrap: wrap;
+  gap: 20px;
 }
+
 .footer-logo {
-  font-family: 'Bebas Neue', sans-serif;
   font-size: 1.6rem;
-  letter-spacing: 2px;
-  flex-shrink: 0;
+  font-weight: 800;
+  color: #2d2d2d;
+  letter-spacing: -0.5px;
 }
-.footer-logo em { color: var(--accent); font-style: normal; }
-.footer-info { flex: 1; }
-.footer-team {
-  font-size: 0.88rem;
-  color: var(--text);
-  margin-bottom: 0.3rem;
+
+.footer-logo em {
+  font-style: normal;
+  color: #f48fb1;
 }
-.footer-details {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-  font-family: 'Space Mono', monospace;
+
+.footer-info {
+  text-align: right;
+  font-size: 0.85rem;
+  color: #7a6a7c;
+  line-height: 1.9;
 }
-.cucei-shield {
-  height: 64px;
-  width: auto;
-  object-fit: contain;
-  filter: brightness(0.9);
+
+.footer-info strong {
+  color: #2d2d2d;
 }
-.footer-bottom {
-  border-top: 1px solid var(--border);
-  text-align: center;
-  padding: 1rem 2rem;
-  font-size: 0.78rem;
-  color: var(--text-muted);
-}
-.footer-bottom a { color: var(--accent); }
-.footer-bottom a:hover { text-decoration: underline; }
-@media (max-width: 600px) {
+
+@media (max-width: 768px) {
   .footer-inner { flex-direction: column; text-align: center; }
+  .footer-info { text-align: center; }
 }
