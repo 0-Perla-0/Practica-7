@@ -1,0 +1,42 @@
+.free-movie-card {
+  background: var(--surface); /* El color de fondo que usa el equipo */
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  transition: transform 0.3s ease;
+}
+
+.free-movie-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--glow); /* El brillo rojo que ya tiene el proyecto */
+}
+
+.video-container {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  border: none;
+}
+
+.free-movie-info {
+  padding: 1rem;
+}
+
+.free-movie-info h3 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.2rem;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.free-movie-info p {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}

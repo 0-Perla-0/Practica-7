@@ -2,6 +2,7 @@ import Hero from '../components/Hero'
 import MovieGrid from '../components/MovieGrid'
 import Loader from '../components/Loader'
 import { useFetch } from '../hooks/useTMDB'
+import FreeMovies from '../components/FreeMovies'
 import './Home.css'
 
 export default function Home() {
@@ -31,6 +32,8 @@ export default function Home() {
             <MovieCardImport key={m.id} movie={m} index={i} />
           ))}</div>}
         </section>
+
+        <FreeMovies />
       </div>
     </div>
   )
