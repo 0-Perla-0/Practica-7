@@ -68,3 +68,4 @@ export default function Navbar({ activeProfile, onGoProfiles }) {
   )
 }
 /* navbar actualizado */
+// navbar finalizado
