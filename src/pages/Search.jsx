@@ -30,3 +30,5 @@ export default function Search() {
     </div>
   )
 }
+
+// busqueda en tiempo real
