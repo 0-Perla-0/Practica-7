@@ -2,16 +2,18 @@
   text-decoration: none;
   color: inherit;
   background-color: #ffffff;
-  border-radius: 16px;
+  border-radius: 20px;
   overflow: hidden;
-  box-shadow: 0 2px 12px rgba(244,143,177,0.15);
+  box-shadow: 0 4px 16px rgba(244,143,177,0.2);
   transition: transform 0.25s ease, box-shadow 0.25s ease;
   animation: fadeUp 0.4s ease both;
+  border: 1.5px solid #fde8ef;
 }
 
 .movie-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 16px 32px rgba(244,143,177,0.3);
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(206,147,216,0.35);
+  border-color: #f48fb1;
 }
 
 @keyframes fadeUp {
@@ -26,28 +28,33 @@
   object-fit: cover;
   display: block;
   transition: transform 0.3s ease;
+  border-radius: 0;
 }
-.movie-card:hover .card-poster-wrap img { transform: scale(1.05); }
+
+.movie-card:hover .card-poster-wrap img { transform: scale(1.06); }
 
 .card-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(244,143,177,0.55);
+  background: linear-gradient(135deg, rgba(244,143,177,0.6), rgba(206,147,216,0.6));
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   transition: opacity 0.25s ease;
 }
+
 .movie-card:hover .card-overlay { opacity: 1; }
 
 .card-play {
   color: #ffffff;
   font-size: 0.95rem;
   font-weight: 700;
-  background: #f48fb1;
-  padding: 10px 20px;
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(4px);
+  padding: 10px 22px;
   border-radius: 24px;
+  border: 2px solid rgba(255,255,255,0.6);
 }
 
 .card-score {
@@ -59,12 +66,16 @@
   font-weight: 700;
   padding: 4px 10px;
   border-radius: 20px;
-  box-shadow: 0 2px 8px rgba(244,143,177,0.2);
+  box-shadow: 0 2px 10px rgba(244,143,177,0.3);
 }
 
-.card-info { padding: 12px 14px; background: #ffffff; }
+.card-info {
+  padding: 14px 16px;
+  background: linear-gradient(to bottom, #fff8fa, #ffffff);
+}
+
 .card-title {
-  font-size: 0.9rem;
+  font-size: 0.92rem;
   font-weight: 700;
   color: #2d2d2d;
   margin: 0 0 4px 0;
@@ -72,4 +83,9 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.card-year { font-size: 0.8rem; color: #c9a0b8; }
+
+.card-year {
+  font-size: 0.78rem;
+  color: #ce93d8;
+  font-weight: 500;
+}
