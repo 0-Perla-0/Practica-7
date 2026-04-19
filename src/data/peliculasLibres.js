@@ -2,16 +2,16 @@ export const peliculasLibres = [
   {
     id: 27374,
     title: "Lake Mungo",
-    poster_path: "/vGvG6vJgRInR7U3vI6v6XvJ6XvJ.jpg", 
+    poster_path: "https://www.themoviedb.org/t/p/w1280/g0zCELYfBfSv8TOGC13buABVN53.jpg", 
     vote_average: 7.0,
     release_date: "2008-06-18",
     isFree: true,
     youtubeId: "GWVGlYBEEXw"
   },
   {
-    id: 297907,
+    id: 274870,
     title: "Pasajeros",
-    poster_path: "/9re6vN48L2O8uM8m98v6q9K9S.jpg", 
+    poster_path: "https://www.themoviedb.org/t/p/w1280/aaVsxL9i4Z3wrP0qfzvjad4fEFq.jpg", 
     vote_average: 6.5,
     release_date: "2008-10-24",
     isFree: true,
@@ -20,7 +20,7 @@ export const peliculasLibres = [
   {
     id: 82507,
     title: "Siniestro",
-    poster_path: "/Ams77w6u5p6M5Z6N6u8m9V6q.jpg", 
+    poster_path: "https://www.themoviedb.org/t/p/w1280/f1Y0JYsWENRfHP1qlg2VLsxBloa.jpg", 
     vote_average: 7.2,
     release_date: "2012-10-12",
     isFree: true,
@@ -29,7 +29,7 @@ export const peliculasLibres = [
   {
     id: 119278,
     title: "Smiley",
-    poster_path: "/Am7m9v6q9K9S6u8m9V6q9K9S.jpg", 
+    poster_path: "https://www.themoviedb.org/t/p/w1280/rO8jANmASmul1tWi53mudn1V9IA.jpg", 
     vote_average: 5.0,
     release_date: "2012-10-11",
     isFree: true,
