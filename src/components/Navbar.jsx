@@ -34,7 +34,7 @@ export default function Navbar({ activeProfile, onGoProfiles }) {
           <li><Link to="/category/popular">Populares</Link></li>
           <li><Link to="/category/top_rated">Top Rated</Link></li>
           <li><Link to="/category/upcoming">Próximas</Link></li>
-          <li><Link to="/perfiles">Perfiles</Link></li>
+          <li><Link to="/category/free">Cine Libre</Link></li>
           <li><Link to="/favorites">❤️ Favoritas</Link></li>
         </ul>
         <form className="nav-search" onSubmit={handleSearch}>
