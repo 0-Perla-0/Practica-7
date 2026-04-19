@@ -31,10 +31,15 @@ export default function MovieDetail() {
   const score = movie.vote_average?.toFixed(1)
   const year = movie.release_date?.slice(0, 4)
   const runtime = movie.runtime ? `${Math.floor(movie.runtime / 60)}h ${movie.runtime % 60}m` : 'N/D'
-  const trailer = videos?.results?.find(v => v.site === 'YouTube' && v.type === 'Trailer')
-    || videos?.results?.find(v => v.site === 'YouTube' && v.type === 'Teaser')
-    || videos?.results?.find(v => v.site === 'YouTube')
-  const trailerKey = trailer ? trailer.key : peliLibre?.youtubeId
+
+  // NO MOVER ESTO O NO SERÀ POSIBLE VER LAS PELICULAS/TRAILER
+  const apiTrailer = videos?.results?.find(v => v.site === 'YouTube' && v.type === 'Trailer') || 
+                     videos?.results?.find(v => v.site === 'YouTube' && v.type === 'Teaser') || 
+                     videos?.results?.find(v => v.site === 'YouTube')
+
+  // NO TOCARRRRR
+  const trailerKey = apiTrailer ? apiTrailer.key : peliLibre?.youtubeId
+
   const cast = credits?.cast?.slice(0, 8).map(actor => {
     const override = peliLibre?.cast?.find(c => c.name === actor.name)
     return override ? { ...actor, localPhoto: override.photo } : actor
@@ -58,15 +63,18 @@ export default function MovieDetail() {
               ? <img src={poster} alt={movie.title} className="detail-poster" />
               : <div className="detail-poster-placeholder">🎬</div>
             }
-            <div className="detail-actions">
+            <div className="detail-actions" style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '15px' }}>
+              
               {trailerKey && (
                 <button className="trailer-btn" onClick={() => setShowTrailer(true)}>
                   ▶ Ver Tráiler
                 </button>
               )}
+
               {peliLibre && (
                 <button
                   className="trailer-btn fullmovie-btn"
+                  style={{ background: 'var(--accent2)' }}
                   onClick={() => setShowFullMovie(true)}
                 >
                   🍿 Ver Película Completa
