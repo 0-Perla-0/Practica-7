@@ -114,13 +114,13 @@ export const peliculasLibres = [
     ]
   },
   {
-    id: 228326,
-    title: "El Libro de la Vida",
-    poster_path: "https://www.themoviedb.org/t/p/w1280/8zPDh3Gf5DNJP4NZG0OQgQAtISW.jpg",
-    vote_average: 7.3,
-    release_date: "2014-10-15",
+    id: 1228246,
+    title: "Five nights at Freddy's 2",
+    poster_path: "https://www.themoviedb.org/t/p/w600_and_h900_face/egHOFSRXrAaugFUD7VMEnXlTnzJ.jpg",
+    vote_average: 6.7,
+    release_date: "2025-12-04",
     isFree: true,
-    youtubeId: "Z8iBblJ4vH4"
+    youtubeId: "5ayhpK-VCx0"
   },
   {
     id: 157336,
