@@ -1,46 +1,49 @@
-## Proyecto CineMAX
-App de películas hecha con React y TMDB API.
-Integrantes: Perla, Marcos, Vane
+# CINEMAX 🎬 — App de Películas en React
 
+Aplicación web desarrollada con React + Vite que consume la API de TMDB para mostrar información de películas.
 
-# CineMAX - App de Peliculas en React
-
-Aplicacion web desarrollada con React + Vite que consume la API de TMDB para mostrar informacion de peliculas.
-
-## Tecnologias Usadas
+## Tecnologías Usadas
 
 - React 18
 - Vite
 - React Router v6
 - TMDB API
+- PayPal SDK
 - CSS personalizado
 
-## Caracteristicas
+## Características
 
 - Home con Hero animado
-- Detalle de pelicula con trailer de YouTube
-- Busqueda en tiempo real
-- Categorias: Populares, Top Rated, Proximas, En Cartelera
-- Reparto y director de cada pelicula
-- Diseno responsivo
+- Perfiles de usuario con avatar personalizado y PIN de seguridad
+- Detalle de película con trailer de YouTube
+- Búsqueda en tiempo real
+- Categorías: Populares, Top Rated, Próximas, En Cartelera
+- Sección Cine Libre con películas completas en YouTube
+- Reparto y director de cada película
+- Películas favoritas
+- Botón de pago Premium con PayPal
+- Diseño responsivo
 
-## Instalacion
+## Instalación
 
-\`\`\`bash
+```bash
 git clone https://github.com/0-Perla-0/Practica-7.git
 cd Practica-7
 npm install
 npm run dev
-\`\`\`
+```
+
+## Variables de entorno
+
+Crea un archivo `.env` en la raíz del proyecto:
+VITE_TMDB_KEY=tu_api_key_aqui
 
 ## Equipo
 
-- Perla Esmeralda Cerpa Rodriguez
+- Perla Esmeralda Cerpa Rodríguez
 - Marcos Leonel Murillo Villegas
-- Vanessa Guadalupe Saavedra Ramirez
+- Vanessa Guadalupe Saavedra Ramírez
 
-Profesor: Zeus Emanuel Gutierrez Cobian
-
-Materia: Desarrollo Web
-
-CUCEI - Universidad de Guadalajara  - Abril 2026
+**Profesor:** Zeus Emanuel Gutiérrez Cobián  
+**Materia:** Desarrollo Web  
+**CUCEI — Universidad de Guadalajara | Abril 2026**

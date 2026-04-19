@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './ProfileSelect.css'
 
 const CATEGORIES = [
@@ -76,15 +76,81 @@ const CATEGORIES = [
   },
 ]
 
-// Bug fix: guardamos profiles en variable externa para que persista entre renders
-let savedProfiles = [
-  { id: 1, name: 'Perla',  img: '/avatars/hello-kitty.png', color: '#ff6b9d' },
-  { id: 2, name: 'Marcos', img: '/avatars/max-steel.png',   color: '#3b82f6' },
-  { id: 3, name: 'Vane',   img: '/avatars/kuromi.png',      color: '#a855f7' },
+const STORAGE_KEY = 'cinemax_profiles'
+
+const defaultProfiles = [
+  { id: 1, name: 'Perla',  img: '/avatars/hello-kitty.png', color: '#ff6b9d', pin: null },
+  { id: 2, name: 'Marcos', img: '/avatars/max-steel.png',   color: '#3b82f6', pin: null },
+  { id: 3, name: 'Vane',   img: '/avatars/kuromi.png',      color: '#a855f7', pin: null },
 ]
 
+function loadProfiles() {
+  try {
+    const saved = localStorage.getItem(STORAGE_KEY)
+    return saved ? JSON.parse(saved) : defaultProfiles
+  } catch { return defaultProfiles }
+}
+
+function saveProfiles(profiles) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(profiles))
+}
+
+// Componente PIN
+function PinModal({ profile, onSuccess, onCancel }) {
+  const [pin, setPin] = useState('')
+  const [error, setError] = useState(false)
+
+  function handleDigit(d) {
+    if (pin.length >= 4) return
+    const newPin = pin + d
+    setPin(newPin)
+    setError(false)
+    if (newPin.length === 4) {
+      setTimeout(() => {
+        if (newPin === profile.pin) {
+          onSuccess()
+        } else {
+          setError(true)
+          setPin('')
+        }
+      }, 200)
+    }
+  }
+
+  function handleDelete() { setPin(p => p.slice(0, -1)); setError(false) }
+
+  return (
+    <div className="pin-modal">
+      <div className="pin-box">
+        <div className="pin-avatar" style={{ borderColor: profile.color }}>
+          <img src={profile.img} alt={profile.name} />
+        </div>
+        <p className="pin-title">PIN de {profile.name}</p>
+        <div className="pin-dots">
+          {[0,1,2,3].map(i => (
+            <div key={i} className={`pin-dot ${pin.length > i ? 'filled' : ''} ${error ? 'error' : ''}`}
+              style={{ '--color': profile.color }} />
+          ))}
+        </div>
+        {error && <p className="pin-error">PIN incorrecto, intenta de nuevo</p>}
+        <div className="pin-keyboard">
+          {[1,2,3,4,5,6,7,8,9].map(d => (
+            <button key={d} className="pin-key" onClick={() => handleDigit(String(d))}>{d}</button>
+          ))}
+          <button className="pin-key pin-key-empty" />
+          <button className="pin-key" onClick={() => handleDigit('0')}>0</button>
+          <button className="pin-key pin-key-del" onClick={handleDelete}>⌫</button>
+        </div>
+        <button className="btn-back" style={{ marginTop: '1rem', width: '100%' }} onClick={onCancel}>
+          Cancelar
+        </button>
+      </div>
+    </div>
+  )
+}
+
 export default function ProfileSelect({ onSelect }) {
-  const [profiles, setProfiles] = useState(savedProfiles)
+  const [profiles, setProfiles] = useState(loadProfiles)
   const [mode, setMode] = useState('list')
   const [step, setStep] = useState('category')
   const [selectedCat, setSelectedCat] = useState(null)
@@ -93,16 +159,25 @@ export default function ProfileSelect({ onSelect }) {
   const [editingProfile, setEditingProfile] = useState(null)
   const [chosen, setChosen] = useState(null)
   const [confirmDelete, setConfirmDelete] = useState(null)
+  const [pinPrompt, setPinPrompt] = useState(null)
+  const [newPin, setNewPin] = useState('')
+  const [confirmPin, setConfirmPin] = useState('')
+  const [pinStep, setPinStep] = useState('set') // 'set' | 'confirm'
+  const [pinError, setPinError] = useState('')
 
   function updateProfiles(newProfiles) {
-    savedProfiles = newProfiles
+    saveProfiles(newProfiles)
     setProfiles(newProfiles)
   }
 
   function handleProfileClick(p) {
     if (mode !== 'list') return
-    setChosen(p.id)
-    setTimeout(() => { if (onSelect) onSelect(p) }, 800)
+    if (p.pin) {
+      setPinPrompt(p)
+    } else {
+      setChosen(p.id)
+      setTimeout(() => { if (onSelect) onSelect(p) }, 800)
+    }
   }
 
   function startEdit(e, p) {
@@ -131,7 +206,8 @@ export default function ProfileSelect({ onSelect }) {
         id: Date.now(),
         name: profileName,
         img: selectedChar.img,
-        color: selectedCat?.color || '#f48fb1'
+        color: selectedCat?.color || '#f48fb1',
+        pin: null
       }])
     } else if (mode === 'edit' && editingProfile) {
       updateProfiles(profiles.map(p =>
@@ -143,24 +219,61 @@ export default function ProfileSelect({ onSelect }) {
     setMode('list')
   }
 
+  function handleSetPin() {
+    if (newPin.length !== 4) { setPinError('El PIN debe tener 4 dígitos'); return }
+    if (pinStep === 'set') { setPinStep('confirm'); setPinError(''); return }
+    if (newPin !== confirmPin) { setPinError('Los PINs no coinciden'); setConfirmPin(''); return }
+    updateProfiles(profiles.map(p =>
+      p.id === editingProfile.id ? { ...p, pin: newPin } : p
+    ))
+    setNewPin(''); setConfirmPin(''); setPinStep('set'); setPinError('')
+    setMode('list')
+  }
+
+  function handleRemovePin() {
+    updateProfiles(profiles.map(p =>
+      p.id === editingProfile.id ? { ...p, pin: null } : p
+    ))
+    setMode('list')
+  }
+
   function handleDelete(id) {
     updateProfiles(profiles.filter(p => p.id !== id))
     setConfirmDelete(null)
     setMode('list')
   }
 
+  // Modal PIN al entrar
+  if (pinPrompt) return (
+    <div className="profile-page">
+      <div className="profile-bg" />
+      <PinModal
+        profile={pinPrompt}
+        onSuccess={() => {
+          const p = pinPrompt
+          setPinPrompt(null)
+          setChosen(p.id)
+          setTimeout(() => { if (onSelect) onSelect(p) }, 800)
+        }}
+        onCancel={() => setPinPrompt(null)}
+      />
+    </div>
+  )
+
   if (mode === 'list') return (
     <div className="profile-page">
       <div className="profile-bg" />
       <div className="profile-container">
-        <p className="profile-eyebrow">Bienvenido a</p>
+        <p className="profile-eyebrow">Bienvenida a</p>
         <h1 className="profile-title">CINE<em>MAX</em></h1>
         <p className="profile-sub">Elige tu perfil para continuar</p>
         <div className="profiles-grid">
           {profiles.map(p => (
             <div key={p.id} className={`profile-card ${chosen === p.id ? 'chosen' : ''}`}>
-              <div className="profile-avatar" style={{ borderColor: p.color, boxShadow: `0 0 0 4px ${p.color}22` }} onClick={() => handleProfileClick(p)}>
+              <div className="profile-avatar" style={{ borderColor: p.color, boxShadow: `0 0 0 4px ${p.color}22` }}
+                onClick={() => handleProfileClick(p)}>
                 <img src={p.img} alt={p.name} onError={e => { e.target.src = 'https://api.dicebear.com/7.x/adventurer/svg?seed=' + p.name }} />
+                {p.pin && <div className="pin-lock">🔒</div>}
               </div>
               <p className="profile-name" onClick={() => handleProfileClick(p)}>{p.name}</p>
               <button className="edit-btn" onClick={e => startEdit(e, p)}>✏ Editar</button>
@@ -187,6 +300,50 @@ export default function ProfileSelect({ onSelect }) {
     </div>
   )
 
+  // Pantalla de configurar PIN
+  if (mode === 'pin') return (
+    <div className="profile-page">
+      <div className="profile-bg" />
+      <div className="creator-container">
+        <div className="edit-header">
+          <div className="edit-preview" style={{ borderColor: editingProfile.color }}>
+            <img src={editingProfile.img} alt={editingProfile.name} />
+          </div>
+          <h2 className="creator-title">{pinStep === 'set' ? 'Crear PIN' : 'Confirmar PIN'}</h2>
+          <p style={{ color: '#a07090', fontSize: '0.85rem', marginBottom: '1rem' }}>
+            {pinStep === 'set' ? 'Escribe un PIN de 4 dígitos' : 'Vuelve a escribir tu PIN'}
+          </p>
+          <input
+            className="profile-input"
+            type="password"
+            inputMode="numeric"
+            maxLength={4}
+            placeholder="····"
+            value={pinStep === 'set' ? newPin : confirmPin}
+            onChange={e => {
+              const val = e.target.value.replace(/\D/g, '').slice(0, 4)
+              pinStep === 'set' ? setNewPin(val) : setConfirmPin(val)
+              setPinError('')
+            }}
+            style={{ textAlign: 'center', fontSize: '1.5rem', letterSpacing: '8px' }}
+            autoFocus
+          />
+          {pinError && <p className="pin-error">{pinError}</p>}
+          <div className="form-actions" style={{ maxWidth: 300, margin: '0 auto' }}>
+            <button className="btn-back" onClick={() => { setMode('edit'); setStep('category'); setNewPin(''); setConfirmPin(''); setPinStep('set'); setPinError('') }}>
+              Cancelar
+            </button>
+            <button className="btn-create" style={{ background: editingProfile.color }}
+              onClick={handleSetPin}
+              disabled={pinStep === 'set' ? newPin.length !== 4 : confirmPin.length !== 4}>
+              {pinStep === 'set' ? 'Siguiente' : 'Guardar PIN'}
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+
   return (
     <div className="profile-page">
       <div className="profile-bg" />
@@ -204,6 +361,15 @@ export default function ProfileSelect({ onSelect }) {
               <button className="btn-change-avatar" onClick={() => { setSelectedCat(null); setStep('character-edit') }}>
                 Cambiar avatar
               </button>
+              <button className="btn-change-avatar" onClick={() => { setNewPin(''); setConfirmPin(''); setPinStep('set'); setMode('pin') }}
+                style={{ background: editingProfile.pin ? 'rgba(230,57,70,0.08)' : undefined, borderColor: editingProfile.pin ? 'rgba(230,57,70,0.3)' : undefined, color: editingProfile.pin ? '#e63946' : undefined }}>
+                {editingProfile.pin ? '🔒 Cambiar PIN' : '🔓 Agregar PIN'}
+              </button>
+              {editingProfile.pin && (
+                <button className="btn-delete-profile" onClick={handleRemovePin}>
+                  Quitar PIN
+                </button>
+              )}
               <button className="btn-delete-profile" onClick={() => setConfirmDelete(editingProfile.id)}>
                 Eliminar perfil
               </button>
