@@ -1,11 +1,25 @@
-.app-wrapper {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  position: relative;
-  z-index: 1;
+:root {
+  --bg: #fdf6f0;
+  --surface: #fff0f3;
+  --border: #f8d7da;
+  --text: #2d2d2d;
+  --text-muted: #9e8fa0;
+  --accent: #f48fb1;
+  --accent2: #ce93d8;
+  --gold: #ffb347;
+  --glow: 0 0 30px rgba(244,143,177,0.3);
 }
-.main-content {
-  flex: 1;
-  padding-top: 80px;
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
+
+body {
+  background-color: var(--bg);
+  font-family: 'Segoe UI', sans-serif;
+  color: var(--text);
+}
+
+a { text-decoration: none; color: inherit; }
