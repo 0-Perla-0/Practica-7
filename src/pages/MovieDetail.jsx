@@ -1,19 +1,25 @@
 import { useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import { useFetch, IMG_BASE } from '../hooks/useTMDB'
+import { peliculasLibres } from '../data/peliculasLibres'
 import Loader from '../components/Loader'
 import MovieCard from '../components/MovieCard'
 import './MovieDetail.css'
 
 export default function MovieDetail() {
   const { id } = useParams()
+  
+  const peliLibre = peliculasLibres.find(p => p.id === parseInt(id))
+  
   const { data: movie, loading, error } = useFetch(`/movie/${id}`)
   const { data: credits } = useFetch(`/movie/${id}/credits`)
   const { data: videos } = useFetch(`/movie/${id}/videos`)
   const { data: similar } = useFetch(`/movie/${id}/similar`)
+  
   const [showTrailer, setShowTrailer] = useState(false)
+  const [showFullMovie, setShowFullMovie] = useState(false)
 
-  if (loading) return <Loader text="Cargando película..." />
+  if (loading) return <Loader text="Cargando detalles..." />
   if (error || !movie) return (
     <div className="error-page">
       <p>😕 No se pudo cargar la película</p>
@@ -48,11 +54,24 @@ export default function MovieDetail() {
             ) : (
               <div className="detail-poster-placeholder">🎬</div>
             )}
-            {trailer && (
-              <button className="trailer-btn" onClick={() => setShowTrailer(true)}>
-                ▶ Ver Tráiler
-              </button>
-            )}
+            
+            <div className="detail-actions" style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginTop: '15px' }}>
+              {trailer && (
+                <button className="trailer-btn" onClick={() => setShowTrailer(true)}>
+                  ▶ Ver Tráiler
+                </button>
+              )}
+
+              {peliLibre && (
+                <button 
+                  className="trailer-btn" 
+                  style={{ background: 'var(--accent2)' }}
+                  onClick={() => setShowFullMovie(true)}
+                >
+                  🚀 Ver Película Completa
+                </button>
+              )}
+            </div>
           </div>
 
           <div className="detail-info">
@@ -138,6 +157,20 @@ export default function MovieDetail() {
               title="Trailer"
               allowFullScreen
               allow="autoplay; encrypted-media"
+            />
+          </div>
+        </div>
+      )}
+
+      {showFullMovie && peliLibre && (
+        <div className="trailer-modal" onClick={() => setShowFullMovie(false)}>
+          <div className="trailer-box" onClick={e => e.stopPropagation()}>
+            <button className="trailer-close" onClick={() => setShowFullMovie(false)}>✕</button>
+            <iframe 
+              src={`https://www.youtube.com/embed/${peliLibre.youtubeId}?autoplay=1`} 
+              title="Película Completa" 
+              allowFullScreen 
+              style={{ width: '100%', height: '100%', border: 'none' }}
             />
           </div>
         </div>

@@ -2,7 +2,8 @@ import Hero from '../components/Hero'
 import MovieGrid from '../components/MovieGrid'
 import Loader from '../components/Loader'
 import { useFetch } from '../hooks/useTMDB'
-import FreeMovies from '../components/FreeMovies'
+import { peliculasLibres } from '../data/peliculasLibres'
+import MovieCardImport from '../components/MovieCard'
 import './Home.css'
 
 export default function Home() {
@@ -20,12 +21,14 @@ export default function Home() {
             <MovieCardImport key={m.id} movie={m} index={i} />
           ))}</div>}
         </section>
+
         <section>
           <h2 className="section-title">⭐ Mejor Valoradas</h2>
           {l2 ? <Loader /> : <div className="movie-grid">{topRated?.results?.slice(0,12).map((m,i) => (
             <MovieCardImport key={m.id} movie={m} index={i} />
           ))}</div>}
         </section>
+
         <section>
           <h2 className="section-title">🎭 Próximos Estrenos</h2>
           {l3 ? <Loader /> : <div className="movie-grid">{upcoming?.results?.slice(0,12).map((m,i) => (
@@ -33,10 +36,15 @@ export default function Home() {
           ))}</div>}
         </section>
 
-        <FreeMovies />
+        <section>
+          <h2 className="section-title">🍿 Cine Libre de Derechos</h2>
+          <div className="movie-grid">
+            {peliculasLibres.map((peli, i) => (
+              <MovieCardImport key={peli.id} movie={peli} index={i} />
+            ))}
+          </div>
+        </section>
       </div>
     </div>
   )
 }
-
-import MovieCardImport from '../components/MovieCard'
