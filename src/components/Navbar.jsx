@@ -67,3 +67,4 @@ export default function Navbar({ activeProfile, onGoProfiles }) {
     </nav>
   )
 }
+/* navbar actualizado */
