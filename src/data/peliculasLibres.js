@@ -1,33 +1,47 @@
 export const peliculasLibres = [
-  { id: 27374,  youtubeId: "GWVGlYBEEXw", isFree: true },
-  { id: 16761,  youtubeId: "h_zUuj81jH4", isFree: true, cast: [
-    { name: "Carlos Espejel", character: "Willy (voice)", photo: "/avatars/carlos-espejel.jpg" },
-  ]},
-  { id: 37221,  youtubeId: "FeuHkSOYSMY", isFree: true, cast: [
-    { name: "Carlos Espejel",    character: "Willy (voice)",    photo: "/avatars/carlos-espejel.jpg" },
-    { name: "Lucila Mariscal",   character: "Lancha (voice)",   photo: "/avatars/lucila-mariscal.jpg" },
-    { name: "Andrés Couturier",  character: "Don Andrés (voz)", photo: "/avatars/andres-couturier.jpg" },
-  ]},
-  { id: 494656, youtubeId: "ntWubYHsVs0", isFree: true, cast: [
-    { name: "Erick Elías",      character: "Charro Negro (v…)", photo: "/avatars/erick-elias.jpg" },
-    { name: "Andrés Couturier", character: "Don Andrés (voz)",  photo: "/avatars/andres-couturier.jpg" },
-  ]},
-  { id: 274854, youtubeId: "kT85x-U7GbY", isFree: true },
-  { id: 403119, youtubeId: "n3Hhk8LTfw0", isFree: true },
-  { id: 82507,  youtubeId: "g5SqFIGb8-0", isFree: true },
-  { id: 50698,  youtubeId: "wO7rUSnxhic", isFree: true, cast: [
-    { name: "Arthur Corber", character: "Dr. Arthur Friedkin", photo: "/avatars/arthur-corber.jpg" },
-  ]},
-  { id: 228326, youtubeId: "Z8iBblJ4vH4", isFree: true },
-  { id: 157336, youtubeId: "8kYH_ayBRsg", isFree: true },
-  { id: 435,    youtubeId: "7bJDdfyFXz0", isFree: true },
-  { id: 1250,   youtubeId: "syIbvylKDr0", isFree: true },
-  { id: 13812,  youtubeId: "pIhlDew9qbs", isFree: true },
-  { id: 8975,   youtubeId: "B6hw9qXssNM", isFree: true, cast: [
-    { name: "Damon Gibson", character: "Vescera", photo: "/avatars/damon-gibson.jpg" },
-  ]},
-  { id: 460316, youtubeId: "GGPIqJh7rmc", isFree: true },
-  { id: 449443, youtubeId: "zhpQOVzSIrk", isFree: true },
-  { id: 58224,  youtubeId: "Q2WCMFoZKkQ", isFree: true },
-  { id: 197796, youtubeId: "vcL0sV1UbkE", isFree: true },
-]
+  {
+    id: 27374,
+    title: "Lake Mungo",
+    poster_path: "https://www.themoviedb.org/t/p/w1280/g0zCELYfBfSv8TOGC13buABVN53.jpg", 
+    vote_average: 7.0,
+    release_date: "2008-06-18",
+    isFree: true,
+    youtubeId: "GWVGlYBEEXw"
+  },
+  {
+    id: 274870,
+    title: "Pasajeros",
+    poster_path: "https://www.themoviedb.org/t/p/w1280/aaVsxL9i4Z3wrP0qfzvjad4fEFq.jpg", 
+    vote_average: 6.5,
+    release_date: "2008-10-24",
+    isFree: true,
+    youtubeId: "sg4HgAHmRac"
+  },
+  {
+    id: 82507,
+    title: "Siniestro",
+    poster_path: "https://www.themoviedb.org/t/p/w1280/f1Y0JYsWENRfHP1qlg2VLsxBloa.jpg", 
+    vote_average: 7.2,
+    release_date: "2012-10-12",
+    isFree: true,
+    youtubeId: "g5SqFIGb8-0"
+  },
+  {
+    id: 119278,
+    title: "Smiley",
+    poster_path: "https://www.themoviedb.org/t/p/w1280/rO8jANmASmul1tWi53mudn1V9IA.jpg", 
+    vote_average: 5.0,
+    release_date: "2012-10-11",
+    isFree: true,
+    youtubeId: "vPF-rEKb0LI"
+  },
+  {
+    id: 1427,
+    title: "El Perfume",
+    poster_path: "https://www.themoviedb.org/t/p/w1280/dAR6MYoz8VrUhGsT0F8ZsqONtdp.jpg", 
+    vote_average: 7.8,
+    release_date: "2006-09-13",
+    isFree: true,
+    youtubeId: "-wOt1ucLCW0"
+  }
+];
