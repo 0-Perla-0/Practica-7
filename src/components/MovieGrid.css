@@ -1,4 +1,5 @@
 .movie-grid-section { margin-bottom: 3rem; }
+
 .section-title {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 2rem;
@@ -8,6 +9,7 @@
   position: relative;
   padding-left: 1rem;
 }
+
 .section-title::before {
   content: '';
   position: absolute;
@@ -16,18 +18,21 @@
   background: linear-gradient(to bottom, var(--accent), var(--accent2));
   border-radius: 2px;
 }
+
 .movie-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
   gap: 1.2rem;
 }
-@media (max-width: 480px) {
-  .movie-grid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
-}
+
 @media (max-width: 768px) {
   .movie-grid {
     grid-template-columns: repeat(3, 1fr);
-    gap: 0.8rem;
+    gap: 0.7rem;
+  }
+
+  .section-title {
+    font-size: 1.4rem;
   }
 }
 
