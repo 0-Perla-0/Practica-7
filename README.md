@@ -2,29 +2,38 @@
 
 Aplicación web desarrollada con React + Vite que consume la API de TMDB para mostrar información de películas.
 
-## Tecnologías Usadas
+## 🚀 Tecnologías Usadas
 
-- React 18
-- Vite
-- React Router v6
-- TMDB API
-- PayPal SDK
-- CSS personalizado
+* React 18
+* Vite
+* React Router v6
+* TMDB API
+* PayPal SDK
+* CSS personalizado
 
-## Características
+## ✨ Características
 
-- Home con Hero animado
-- Perfiles de usuario con avatar personalizado y PIN de seguridad
-- Detalle de película con trailer de YouTube
-- Búsqueda en tiempo real
-- Categorías: Populares, Top Rated, Próximas, En Cartelera
-- Sección Cine Libre con películas completas en YouTube
-- Reparto y director de cada película
-- Películas favoritas
-- Botón de pago Premium con PayPal
-- Diseño responsivo
+* Home con Hero animado
+* Perfiles de usuario con avatar personalizado y PIN de seguridad
+* Detalle de película con trailer de YouTube
+* Búsqueda en tiempo real
+* Categorías: Populares, Top Rated, Próximas, En Cartelera
+* Sección Cine Libre con películas completas en YouTube
+* Reparto y director de cada película
+* Películas favoritas
+* Botón de pago Premium con PayPal
 
-## Instalación
+## 📱 Diseño Responsivo
+
+La aplicación cuenta con un diseño totalmente responsivo, adaptándose a distintos dispositivos:
+
+* 📱 Celulares
+* 📲 Tablets
+* 💻 Computadoras
+
+Se optimizó el uso de **Flexbox, media queries y layouts fluidos** para garantizar una experiencia de usuario consistente en cualquier tamaño de pantalla.
+
+## ⚙️ Instalación
 
 ```bash
 git clone https://github.com/0-Perla-0/Practica-7.git
@@ -33,17 +42,22 @@ npm install
 npm run dev
 ```
 
-## Variables de entorno
+## 🔐 Variables de entorno
 
 Crea un archivo `.env` en la raíz del proyecto:
+
+```env
 VITE_TMDB_KEY=tu_api_key_aqui
+```
 
-## Equipo
+## 👥 Equipo
 
-- Perla Esmeralda Cerpa Rodríguez
-- Marcos Leonel Murillo Villegas
-- Vanessa Guadalupe Saavedra Ramírez
+* Perla Esmeralda Cerpa Rodríguez
+* Marcos Leonel Murillo Villegas
+* Vanessa Guadalupe Saavedra Ramírez
 
-**Profesor:** Zeus Emanuel Gutiérrez Cobián 
-**Materia:** Desarrollo Web  
+---
+
+**Profesor:** Zeus Emanuel Gutiérrez Cobián
+**Materia:** Desarrollo Web
 **CUCEI — Universidad de Guadalajara | Abril 2026**
