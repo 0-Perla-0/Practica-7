@@ -138,3 +138,47 @@
 @media (max-width: 600px) {
   .hero-content { padding: 0 1.5rem 4rem; }
 }
+@media (max-width: 768px) {
+  .hero {
+    height: 70vh;
+    min-height: 400px;
+    align-items: flex-end;
+  }
+
+  .hero-grad {
+    background:
+      linear-gradient(to top, rgba(8,8,16,1) 0%, rgba(8,8,16,0.7) 50%, rgba(8,8,16,0.3) 100%);
+  }
+
+  .hero-bg {
+    background-position: center center;
+  }
+
+  .hero-content {
+    padding: 0 1.2rem 3rem;
+    max-width: 100%;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-overview {
+    font-size: 0.85rem;
+    max-width: 100%;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .hero-btn-primary, .hero-btn-secondary {
+    padding: 0.7rem 1.4rem;
+    font-size: 0.85rem;
+  }
+
+  .hero-dots {
+    bottom: 1rem;
+    right: 1rem;
+  }
+}

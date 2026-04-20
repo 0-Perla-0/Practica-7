@@ -279,3 +279,64 @@
   .detail-main { grid-template-columns: 1fr; }
   .detail-poster-wrap { position: static; max-width: 280px; margin: 0 auto; }
 }
+@media (max-width: 768px) {
+  .detail-main {
+    grid-template-columns: 1fr;
+  }
+
+  .detail-poster-wrap {
+    position: static;
+    max-width: 220px;
+    margin: 0 auto;
+  }
+
+  .detail-title {
+    font-size: 1.8rem;
+  }
+
+  .detail-stats {
+    gap: 1rem;
+    padding: 1rem;
+  }
+
+  .detail-container {
+    padding: 1rem 1rem 3rem;
+  }
+
+  .trailer-box {
+    width: 95vw;
+  }
+
+  .cast-grid {
+    grid-template-columns: repeat(auto-fill, minmax(75px, 1fr));
+  }
+
+  .detail-similar .movie-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .detail-title {
+    font-size: 1.5rem;
+  }
+
+  .stat-val {
+    font-size: 0.95rem;
+  }
+
+  .trailer-btn {
+    font-size: 0.9rem;
+    padding: 0.75rem;
+  }
+}
+@media (max-width: 768px) {
+  .detail-page {
+    overflow-x: hidden;
+  }
+
+  .detail-backdrop {
+    width: 100%;
+    overflow: hidden;
+  }
+}

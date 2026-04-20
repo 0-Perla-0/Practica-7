@@ -24,3 +24,16 @@
 @media (max-width: 480px) {
   .movie-grid { grid-template-columns: repeat(2, 1fr); gap: 0.8rem; }
 }
+@media (max-width: 768px) {
+  .movie-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.8rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .movie-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.6rem;
+  }
+}
