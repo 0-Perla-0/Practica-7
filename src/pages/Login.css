@@ -77,21 +77,21 @@
   letter-spacing: 1px;
 }
 .login-field input {
-  background: var(--surface2, #161626);
-  border: 1.5px solid var(--border);
+  background: #fff0f5;
+  border: 1.5px solid #f8c8d8;
   border-radius: 12px;
   padding: 0.85rem 1rem;
-  color: var(--text);
+  color: #c0406a;
   font-size: 1rem;
   font-family: 'DM Sans', sans-serif;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
   outline: none;
 }
 .login-field input:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(230,57,70,0.15);
+  border-color: #e8709a;
+  box-shadow: 0 0 0 3px rgba(232,112,154,0.18);
 }
-.login-field input::placeholder { color: var(--text-muted); }
+.login-field input::placeholder { color: #d4a0b5; }
 
 .login-error {
   background: rgba(230,57,70,0.1);
