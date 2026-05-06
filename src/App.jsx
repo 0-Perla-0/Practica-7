@@ -1,34 +1,34 @@
-import { useState } from 'react'
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Navigate } from 'react-router-dom'
+import { AuthProvider, useAuth } from './context/AuthContext'
+import { CartProvider } from './context/CartContext'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
+import Login from './pages/Login'
 import Home from './pages/Home'
 import MovieDetail from './pages/MovieDetail'
 import Search from './pages/Search'
 import Category from './pages/Category'
-import ProfileSelect from './pages/ProfileSelect'
-import './App.css'
 import FreeMovies from './pages/FreeMovies'
 import Favorites from './pages/Favorites'
-export default function App() {
-  const [activeProfile, setActiveProfile] = useState(null)
+import TiendaSteelbooks from './pages/TiendaSteelbooks'
+import './App.css'
 
-  if (!activeProfile) {
-    return <ProfileSelect onSelect={(profile) => setActiveProfile(profile)} />
-  }
-
+function AppInner() {
+  const { user, logout } = useAuth()
+  if (!user) return <Login />
   return (
     <div className="app-wrapper">
-      <Navbar activeProfile={activeProfile} onGoProfiles={() => setActiveProfile(null)} />
+      <Navbar activeUser={user} onLogout={logout} />
       <main className="main-content">
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/movie/:id" element={<MovieDetail />} />
-          <Route path="/search" element={<Search />} />
+          <Route path="/"               element={<Home />} />
+          <Route path="/movie/:id"      element={<MovieDetail />} />
+          <Route path="/search"         element={<Search />} />
           <Route path="/category/:type" element={<Category />} />
-          <Route path="/perfiles" element={<ProfileSelect onSelect={(profile) => setActiveProfile(profile)} />} />
-          <Route path="/category/free" element={<FreeMovies />} />
-          <Route path="/favorites" element={<Favorites />} />
+          <Route path="/category/free"  element={<FreeMovies />} />
+          <Route path="/favorites"      element={<Favorites />} />
+          <Route path="/tienda"         element={<TiendaSteelbooks />} />
+          <Route path="*"               element={<Navigate to="/" replace />} />
         </Routes>
       </main>
       <Footer />
@@ -36,4 +36,12 @@ export default function App() {
   )
 }
 
-// rutas configuradas
+export default function App() {
+  return (
+    <AuthProvider>
+      <CartProvider>
+        <AppInner />
+      </CartProvider>
+    </AuthProvider>
+  )
+}

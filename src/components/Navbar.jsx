@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
+import { useCart } from '../context/CartContext'
 import PayPalButton from './PayPalButton'
 import './Navbar.css'
 
-export default function Navbar({ activeProfile, onGoProfiles }) {
+export default function Navbar({ activeUser, onLogout }) {
   const [scrolled, setScrolled] = useState(false)
   const [menuOpen, setMenuOpen] = useState(false)
   const [q, setQ] = useState('')
   const [showPay, setShowPay] = useState(false)
+  const { count } = useCart()
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -61,20 +63,50 @@ export default function Navbar({ activeProfile, onGoProfiles }) {
             💎 Premium
           </button>
 
-          {activeProfile && (
-            <img
-              src={activeProfile.img}
-              alt={activeProfile.name}
-              onClick={() => { onGoProfiles() }}
-              style={{
-                width: '36px', height: '36px',
-                borderRadius: '50%',
-                border: `2px solid ${activeProfile.color}`,
-                objectFit: 'cover',
-                cursor: 'pointer'
-              }}
-            />
+          {/* Carrito */}
+          <Link to="/tienda" style={{
+            position: 'relative', display: 'flex', alignItems: 'center',
+            fontSize: '1.3rem', textDecoration: 'none', padding: '4px'
+          }} title="Tienda SteelBooks">
+            🛒
+            {count > 0 && (
+              <span style={{
+                position: 'absolute', top: '-4px', right: '-6px',
+                background: 'var(--accent)', color: 'white',
+                borderRadius: '999px', fontSize: '0.65rem', fontWeight: 700,
+                padding: '1px 5px', lineHeight: '1.5'
+              }}>{count}</span>
+            )}
+          </Link>
+
+          {/* Avatar + logout */}
+          {activeUser && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+              <div title={activeUser.nombre} style={{
+                width: '34px', height: '34px', borderRadius: '50%',
+                background: 'var(--accent)', color: 'white',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontWeight: 700, fontSize: '0.95rem', position: 'relative',
+                flexShrink: 0, border: activeUser.es_admin ? '2px solid gold' : '2px solid var(--accent)'
+              }}>
+                {activeUser.nombre.charAt(0).toUpperCase()}
+                {activeUser.es_admin && (
+                  <span style={{
+                    position: 'absolute', bottom: '-2px', right: '-2px',
+                    width: '10px', height: '10px', background: 'gold',
+                    borderRadius: '50%', border: '1.5px solid var(--bg)'
+                  }} title="Admin" />
+                )}
+              </div>
+              <button onClick={onLogout} title="Cerrar sesión" style={{
+                background: 'none', border: '1px solid var(--border)',
+                borderRadius: '8px', color: 'var(--text-muted)',
+                padding: '4px 8px', cursor: 'pointer', fontSize: '0.8rem',
+                fontFamily: 'DM Sans'
+              }}>⏻</button>
+            </div>
           )}
+
           <button className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
             <span /><span /><span />
           </button>
